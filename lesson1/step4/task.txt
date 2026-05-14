@@ -1,0 +1,51 @@
+№1
+Реализуйте потокобезопасную мапу.
+type SafeMap struct {
+    m   map[string]interface{}
+    mux sync.Mutex
+}
+
+Для чтения элементов используйте функцию func (s *SafeMap) Get(key string) interface{}
+Для записи элементов используйте функцию func (s *SafeMap) Set(key string, value interface{})
+Чтобы получить новый экземпляр структуры func NewSafeMap() *SafeMap
+
+№2
+Напишите потокобезопасный счётчик
+type Counter struct {
+    value int
+    mu    sync.RWMutex
+}
+
+Реализуйте следующий интерфейс
+type Сount interface{
+    Increment() // увеличение счётчика на единицу
+    GetValue() int // получение текущего значения
+}
+
+№3
+Напишите потокобезопасную очередь
+type ConcurrentQueue struct {
+    queue []interface{}
+    mutex sync.Mutex
+}
+
+ConcurrentQueue имеет интерфейс:
+type Queue interface {
+    Enqueue(element interface{}) // положить элемент в очередь
+    Dequeue() interface{} // забрать первый элемент из очереди
+}
+
+№4
+Напишите функцию
+func Write(num int)
+которая записывает данные в буфер Buf []int.
+
+Напишите функцию
+func Consume() int
+которая будет забирать первое значение из буфера и возвращать его. Используйте мьютекс для синхронизации доступа к буферу.
+
+сделайте буфер и мьютекс переменными
+var (
+    Buf   []int
+    mutex sync.Mutex
+)

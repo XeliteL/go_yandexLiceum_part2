@@ -1,0 +1,23 @@
+№1
+Напишите функцию Contains(ctx context.Context, r io.Reader, seq []byte) (bool, error), которая должна найти первое 
+вхождение байт seq в данных, доступных через Reader r. Если последовательность найдена, верните true, nil, иначе 
+false, nil. В случае ошибки — false и саму ошибку. В случае отмены контекста — false и причину отмены.
+
+№2
+Напишите функцию fetchAPI(ctx context.Context, url string, timeout time.Duration) (*APIResponse, error), которая запрашивает данные по адресу url 
+(метод GET) и возвращает код ответа и само тело ответа. Используйте контекст для ограничения времени запроса и отмены ожидания свыше timeout. В случае 
+ошибок возвращайте nil, error. При превышении таймаута ожидания — nil, context.DeadlineExceeded. В коде должна быть структура:
+type APIResponse struct { Data string // тело ответа StatusCode int // код ответа }
+
+№3
+Напишите функцию FetchAPI(ctx context.Context, urls []string, timeout time.Duration) []*APIResponse, которая одновременно (concurrently) получает данные 
+из переданных urls (метод GET). Используйте контекст, чтобы ограничить время запроса и отмены ожидания свыше timeout. В случае ошибки верните её в 
+соответствующем объекте APIResponse. При превышении таймаута ожидания должна быть ошибка context.DeadlineExceeded. В коде должна быть структура:
+type APIResponse struct { URL string // запрошенный URL Data string // тело ответа StatusCode int // код ответа Err error // ошибка, если возникла }
+
+№4
+Напишите функцию StartServer(maxTimeout time.duration), которая запускает веб-сервер по адресу http://localhost:8080. При обращении по 
+URL http://localhost:8080/readSource сервер должен сделать запрос по другому адресу: http://localhost:8081/provideData 
+(код запуска сервера localhost:8081 писать не нужно) и вернуть полученные данные. Используйте http.timeoutHandler, чтобы ограничить время 
+ожидания данных с сервера localhost:8081. При превышении лимита maxTimeout пользователю должна вернуться ошибка с кодом StatusServiceUnavailable, 
+иначе — полученные данные.
